@@ -72,7 +72,9 @@ export default class Homework3_Scene extends Scene {
 	// HOMEWORK 3 - TODO 
 	/*
 		You'll want to be sure to load in your own sprite here
+		
 	*/
+	
 	/*
 	 * loadScene() overrides the parent class method. It allows us to load in custom assets for
 	 * use in our scene.
@@ -80,7 +82,8 @@ export default class Homework3_Scene extends Scene {
 	loadScene(){
 		/* ##### DO NOT MODIFY ##### */
 		// Load in the player car spritesheet
-		this.load.spritesheet("player", "hw3_assets/spritesheets/cars.json");
+		this.load.spritesheet("player","hw3_assets/spritesheets/vehicle.json");
+		//this.load.spritesheet("player", "hw3_assets/spritesheets/cars.json");
 
 		// Load in the background image
 		this.load.image("desert_road", "hw3_assets/sprites/road.jpg");
@@ -133,6 +136,7 @@ export default class Homework3_Scene extends Scene {
 		this.receiver.subscribe(Homework3Event.PLAYER_DEAD);
 		this.receiver.subscribe(Homework3Event.SHOOT_BULLET);
 		this.receiver.subscribe(Homework3Event.BULLET_USED);
+		
 	}
 
 	/**
@@ -571,6 +575,13 @@ export default class Homework3_Scene extends Scene {
 	 */
 	handleScreenDespawn(node: CanvasNode, viewportCenter: Vec2, paddedViewportSize: Vec2, isBullet: boolean): void {
 		// Your code goes here:
+		if (!isBullet&&(node.position.y>=paddedViewportSize.y)&&node.visible==true)
+		{node.visible=false;}
+
+		else if (isBullet&&(node.positionY<=paddedViewportSize.y)&&node.visible==true)
+		{node.visible=false;}
+
+
 	}
 
 	// HOMEWORK 3 - TODO (3. BOUND CAR)
@@ -597,8 +608,18 @@ export default class Homework3_Scene extends Scene {
 	 * @param viewportSize The size of the viewport
 	 */
 	lockPlayer(viewportCenter: Vec2, viewportSize: Vec2): void {
-		//REMOVE
-		// Your code goes here:
+		if (this.player.position.x > viewportSize.x-84){
+            this.player.position.x = viewportSize.x-84;
+        }
+        if (this.player.position.x <84){
+            this.player.position.x = 84;}
+
+        if (this.player.position.y > viewportSize.y-128){
+            this.player.position.y = viewportSize.y-128;
+            }
+        if (this.player.position.y < 84){
+            this.player.position.y = 84;
+        }
 	}
 
 	// HOMEWORK 3 - TODO (2. collision)

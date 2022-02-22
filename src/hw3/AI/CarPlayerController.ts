@@ -67,7 +67,7 @@ export default class CarPlayerController implements AI {
 
 	update(deltaT: number): void {
 		if(this.isDead) return;
-		
+		this.speed = this.MIN_SPEED;
 		while(this.receiver.hasNextEvent()){
 			this.handleEvent(this.receiver.getNextEvent());
 		}
@@ -75,12 +75,16 @@ export default class CarPlayerController implements AI {
 		//HOMEWORK 3 - TODO 
 		//When the player clicks their mouse, a bullet should be fired by using the SHOOT_BULLET event.
 		//Note that you shouldn't be able to fire a bullet while holding shift.
+		if(Input.isMousePressed()&&!this.owner.animation.isPlaying("firing")) {
+			this.owner.animation.play("firing", false);
+		}
+
 
 		//If shift is currently being held down, increase the speed of the car. If not, check if mouse click has been pressed to shoot a bullet.
 		if(Input.isKeyPressed("shift")) {
 			this.speed = this.MAX_SPEED;
 		}
-
+		
 		// We need to handle player input for movement
 		let forwardAxis = (Input.isPressed('forward') ? 1 : 0) + (Input.isPressed('backward') ? -1 : 0);
 		let horizontalAxis = (Input.isPressed('left') ? -1 : 0) + (Input.isPressed('right') ? 1 : 0);
