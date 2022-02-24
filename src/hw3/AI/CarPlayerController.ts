@@ -3,6 +3,7 @@ import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import Emitter from "../../Wolfie2D/Events/Emitter";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Receiver from "../../Wolfie2D/Events/Receiver";
 import Input from "../../Wolfie2D/Input/Input";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
@@ -47,6 +48,8 @@ export default class CarPlayerController implements AI {
 
 		this.receiver = new Receiver();
 		this.emitter = new Emitter();
+		//
+		this.receiver.subscribe(Homework3Event.PLAYER_DAMAGE);
 	}
 
 	activate(options: Record<string, any>){};
@@ -60,9 +63,14 @@ export default class CarPlayerController implements AI {
 				this.owner.animation.queue("dead", true);
 				this.isDead = true;
 			} else {
+		
 				this.owner.animation.play("damage", false, Homework3Event.PLAYER_I_FRAMES_END);
 			}
 		}
+
+		 
+
+
 	}
 
 	update(deltaT: number): void {
@@ -75,8 +83,12 @@ export default class CarPlayerController implements AI {
 		//HOMEWORK 3 - TODO 
 		//When the player clicks their mouse, a bullet should be fired by using the SHOOT_BULLET event.
 		//Note that you shouldn't be able to fire a bullet while holding shift.
-		if(Input.isMousePressed()&&!this.owner.animation.isPlaying("firing")) {
+		if(Input.isMouseJustPressed()&&!this.owner.animation.isPlaying("firing")&&!Input.isKeyPressed("shift")
+		&&!this.owner.animation.isPlaying("damage")&&!this.isDead ) {
 			this.owner.animation.play("firing", false);
+			let position= this.owner.position.clone();
+			this.emitter.fireEvent(Homework3Event.SHOOT_BULLET,{position:position});
+
 		}
 
 

@@ -136,6 +136,8 @@ export default class Homework3_Scene extends Scene {
 		this.receiver.subscribe(Homework3Event.PLAYER_DEAD);
 		this.receiver.subscribe(Homework3Event.SHOOT_BULLET);
 		this.receiver.subscribe(Homework3Event.BULLET_USED);
+		//
+		this.receiver.subscribe(Homework3Event.PLAYER_DAMAGE);
 		
 	}
 
@@ -255,7 +257,7 @@ export default class Homework3_Scene extends Scene {
 			// HOMEWORK 3 - TODO
 			// Currently bullets use the base custom gradient circle shader, 
 			// you'll need to change this to the Linear Gradient Circle once you get that shader working. 
-			this.bullets[i].useCustomShader(Homework3Shaders.GRADIENT_CIRCLE);
+			this.bullets[i].useCustomShader(Homework3Shaders.LINEAR_GRADIENT_CIRCLE);
 
 			this.bullets[i].visible = false;
 			// This is the color each bullet is set to by default, you can change this if you like a different color
@@ -267,6 +269,7 @@ export default class Homework3_Scene extends Scene {
 			// Add a collider to our bullet
 			let collider = new Circle(Vec2.ZERO, 25);
 			this.bullets[i].setCollisionShape(collider);
+
 		}
 
 		// Initialize the mineral object pool
@@ -312,9 +315,13 @@ export default class Homework3_Scene extends Scene {
 
 		if(bullet !== null){
 			// Spawn a bullet
+			const i= Math.floor(Math.random() * (1 + 1));;
+			if (i==1) bullet.color.set(255,20,147,1);
+			else bullet.color=Color.YELLOW;
 			bullet.visible = true;
 			bullet.position = position.add(new Vec2(0, -64));
-			bullet.setAIActive(true, {speed: 250});
+			if (i==1) bullet.setAIActive(true, {speed: 150});
+			else bullet.setAIActive(true, {speed: 500});
 		}
 	}
 
@@ -484,6 +491,11 @@ export default class Homework3_Scene extends Scene {
 				// If the rock is spawned in and it overlaps the player
 				if(rock.visible && this.player.collisionShape.overlaps(rock.boundary)){
 					// Put your code here:
+					this.playerinvincible=true;
+					rock.visible=false;
+					this.playerHealth=this.playerHealth-1;
+					this.healthLabel.text = `Health: ${this.playerHealth}`;
+					this.emitter.fireEvent(Homework3Event.PLAYER_DAMAGE,{health:this.playerHealth});
 				}
 			}
 		}
@@ -578,7 +590,7 @@ export default class Homework3_Scene extends Scene {
 		if (!isBullet&&(node.position.y>=paddedViewportSize.y)&&node.visible==true)
 		{node.visible=false;}
 
-		else if (isBullet&&(node.positionY<=paddedViewportSize.y)&&node.visible==true)
+		else if (isBullet&&(node.position.y<=(viewportCenter.y*2-paddedViewportSize.y))&&node.visible==true)
 		{node.visible=false;}
 
 
@@ -650,6 +662,26 @@ export default class Homework3_Scene extends Scene {
 	static checkAABBtoCircleCollision(aabb: AABB, circle: Circle): boolean {
 		//REMOVE
 		// Your code goes here:
+		
+		// temporary variables to set edges for testing
+		let test=circle.center.clone();
+		
+		 // which edge is closest?
+		if(circle.center.x<aabb.left) test.x=aabb.left;		//left edge
+		else if (circle.center.x>aabb.right)  test.x=aabb.right;  // right edge
+		if(circle.center.y<aabb.top) test.y=aabb.top;					// top edge
+		else if (circle.center.y>aabb.bottom)  test.y=aabb.bottom; // bottom edge
+		
+		// get distance from closest edges
+		const distX = circle.center.x-test.x;
+		const distY =circle.center.y-test.y;
+		let distance =  ((distX*distX) + (distY*distY)) **0.5;
+	  
+		// if the distance is less than the radius, collision!
+		if (distance <= circle.halfSize.x) {
+		  return true;
+		}
+		
 		return false;
 	}
 

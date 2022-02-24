@@ -26,7 +26,7 @@ import LinearGradientCircleShaderType from "./hw3/LinearGradientCircleShaderType
             { name: "right", keys: ["d"] },
         ],
         useWebGL: true,                        // Tell the game we want to use webgl
-        showDebug: true                      // Whether to show debug messages. You can change this to true if you want
+        showDebug: false                      // Whether to show debug messages. You can change this to true if you want
     }
 
     // We have a custom shader, so lets add it to the registry and preload it
