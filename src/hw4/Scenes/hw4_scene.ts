@@ -112,13 +112,13 @@ export default class hw4_scene extends Scene {
         */
 
         // Add in the tilemap
-        let tilemapLayers = this.add.tilemap("level", new Vec2(0.5, 0.5));
-
+        let tilemapLayers = this.add.tilemap("level", new Vec2(0.25, 0.25));
+        
          // Get the wall layer
         this.walls = <OrthogonalTilemap>tilemapLayers[1].getItems()[0];
 
         // Set the viewport bounds to the tilemap
-        let tilemapSize: Vec2 = this.walls.size.scaled(0.5);
+        let tilemapSize: Vec2 = this.walls.size.scaled(0.25);
 
         this.viewport.setBounds(0, 0, tilemapSize.x, tilemapSize.y);
 
