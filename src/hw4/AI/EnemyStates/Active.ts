@@ -47,7 +47,10 @@ export default class Active extends EnemyState {
      * You'll have to implement this function so you can use retreatPath in the Retreat action.
      */
     pickRetreatPath(pathToPlayer: NavigationPath){
-
+        let newdest=Vec2.ZERO.clone();
+        newdest.x=2*this.owner.position.x-this.parent.getPlayerPosition().x;
+        newdest.y=2*this.owner.position.y-this.parent.getPlayerPosition().y;
+        this.parent.retreatPath=this.owner.getScene().getNavigationManager().getPath(hw4_Names.NAVMESH, this.owner.position, newdest, true);
     }
 
     update(deltaT: number): void {
@@ -102,6 +105,12 @@ export default class Active extends EnemyState {
                 if (index != -1) {
                     this.parent.currentStatus.splice(index, 1);
                 }
+                // if enemy type is RetreatEnemy, remove GOT_DAMAGE status from enemy
+                let index2 = this.parent.currentStatus.indexOf(hw4_Statuses.GOT_DAMAGE);
+                if (index2 != -1) {
+                    this.parent.currentStatus.splice(index2, 1);
+                }
+
             }
             if (nextAction.toString() === "(Berserk)"){
                 let index = this.parent.currentStatus.indexOf(hw4_Statuses.CAN_BERSERK);
@@ -109,6 +118,7 @@ export default class Active extends EnemyState {
                     this.parent.currentStatus.splice(index, 1);
                 }
             }
+           
 
             //The action has not reached the goal yet, pass along the effects of our action
             if (!result.includes(hw4_Statuses.REACHED_GOAL)) {

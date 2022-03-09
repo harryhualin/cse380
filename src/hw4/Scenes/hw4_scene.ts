@@ -329,7 +329,7 @@ export default class hw4_scene extends Scene {
         // Create the players
         this.playerCharacters = Array(2);
         this.playerCharacters[0] = this.add.animatedSprite("player1", "primary");
-        this.playerCharacters[0].position.set(4*8, 62*8);
+        this.playerCharacters[0].position.set(7*8, 54*8);
         this.playerCharacters[0].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
         //First player is melee based, starts off with a knife and is short ranged
         this.playerCharacters[0].addAI(PlayerController,
@@ -350,7 +350,7 @@ export default class hw4_scene extends Scene {
 
         //Second player is ranged based, long range and starts with pistol
         this.playerCharacters[1] = this.add.animatedSprite("player2", "primary");
-        this.playerCharacters[1].position.set(2*8, 62*8);
+        this.playerCharacters[1].position.set(9*8, 54*8);
         this.playerCharacters[1].addPhysics(new AABB(Vec2.ZERO, new Vec2(8, 8)));
         this.playerCharacters[1].addAI(PlayerController,
             {
@@ -476,14 +476,28 @@ export default class hw4_scene extends Scene {
          * choose one of those paths due to how the path selection is implemented, there won't be any randomness given two or more equally valid paths.
          * 
          */
-        let actionsGun = [new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-        new Move(2, [], [hw4_Statuses.IN_RANGE], {inRange: 100}),
-        new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200})];
+        let actionsGun = [new AttackAction(4, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+        new Move(3, [], [hw4_Statuses.IN_RANGE], {inRange: 100}),
+        new Retreat(1, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
+        new Berserk(2,[hw4_Statuses.LOW_HEALTH,hw4_Statuses.CAN_BERSERK],[hw4_Statuses.REACHED_GOAL])];
 
-        let actionKnife = [new AttackAction(3, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
-        new Move(2, [], [hw4_Statuses.IN_RANGE], {inRange: 20}),
-        new Retreat(4, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200})];
+        let actionKnife = [new AttackAction(4, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+        new Move(3, [], [hw4_Statuses.IN_RANGE], {inRange: 20}),
+        new Retreat(2, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
+        new Berserk(1,[hw4_Statuses.LOW_HEALTH,hw4_Statuses.CAN_BERSERK],[hw4_Statuses.REACHED_GOAL]) ];
 
+
+        // got attacked once and retreat
+        let actionRetreat = [new AttackAction(4, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+        new Move(3, [], [hw4_Statuses.IN_RANGE], {inRange: 20}),
+        new Retreat(1, [hw4_Statuses.GOT_DAMAGE,hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
+        new Berserk(2,[hw4_Statuses.LOW_HEALTH,hw4_Statuses.CAN_BERSERK],[hw4_Statuses.REACHED_GOAL]) ];
+        
+        //berserk when see one player
+        let actionBerserk = [new AttackAction(4, [hw4_Statuses.IN_RANGE], [hw4_Statuses.REACHED_GOAL]),
+        new Move(3, [], [hw4_Statuses.IN_RANGE], {inRange: 20}),
+        new Retreat(2, [hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_RETREAT], [hw4_Statuses.REACHED_GOAL], {retreatDistance: 200}),
+        new Berserk(1,[hw4_Statuses.IN_RANGE,hw4_Statuses.CAN_BERSERK],[hw4_Statuses.REACHED_GOAL]) ];
 
         // HOMEWORK 4 - TODO
         /**
@@ -501,9 +515,9 @@ export default class hw4_scene extends Scene {
          * 
          * Use these functions below to make sure your AI are taking the proper actions given certain situations.
          */
-        /*let resultGun = this.generateGoapPlans(actionsGun, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-        let resultKnife = this.generateGoapPlans(actionKnife, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
-        this.testGoapPlans(resultGun, resultKnife, null, null);*/
+        // let resultGun = this.generateGoapPlans(actionsGun, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
+        // let resultKnife = this.generateGoapPlans(actionKnife, [hw4_Statuses.IN_RANGE, hw4_Statuses.LOW_HEALTH, hw4_Statuses.CAN_BERSERK, hw4_Statuses.CAN_RETREAT], hw4_Statuses.REACHED_GOAL);
+        // this.testGoapPlans(resultGun, resultKnife, null, null);
 
         // Initialize the enemies
         for(let i = 0; i < enemyData.numEnemies; i++){
@@ -551,11 +565,16 @@ export default class hw4_scene extends Scene {
                 actions = actionKnife;
                 range = 20;
             }
-            else if (data.type === "custom_enemy1") {
-                //ADD CODE HERE
+            else if (data.type === "retreat_enemy") {
+                weapon = this.createWeapon("weak_pistol");
+                actions = actionRetreat;
+                range = 100;
+                
             }
-            else if (data.type === "custom_enemy2") {
-                //ADD CODE HERE
+            else if (data.type === "berserks_enemy2") {
+                weapon = this.createWeapon("knife");
+                actions = actionBerserk;
+                range = 20;
             }
 
             let enemyOptions = {

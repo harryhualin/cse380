@@ -2,72 +2,72 @@
   "numEnemies": 21,
   "enemies": [
     {
-      "position": [1004, 694],
+      "position": [848, 624],
       "mode": "patrol",
-      "route": [0, 1, 0],
+      "route": [0, 1, 2, 3],
       "health": 5,
       "type": "gun_enemy"
     },
     {
-      "position": [573, 479],
+      "position": [988, 408],
       "mode": "patrol",
-      "route": [2,3,2],
+      "route": [4, 5, 6, 7, 8, 9, 10, 11],
       "health": 8,
       "type": "knife_enemy"
     },
     {
-      "position": [492, 653],
+      "position": [516, 404],
       "mode": "patrol",
-      "route": [ 4, 5, 6, 7, 4],
-      "health": 5,
-      "type": "retreat_enemy"
-    },
-    {
-      "position": [649, 894],
-      "mode": "patrol",
-      "route": [5, 6, 7, 4],
-      "health": 5,
-      "type": "berserk_enemy"
-    },
-    {
-      "position": [658, 697],
-      "mode": "patrol",
-      "route": [6, 7, 4, 5],
+      "route": [11, 4, 5, 6, 7, 8, 9, 10],
       "health": 5,
       "type": "gun_enemy"
     },
     {
-      "position": [492, 798],
+      "position": [648, 164],
       "mode": "patrol",
-      "route": [7, 4, 5, 6],
+      "route": [8, 9, 10, 11, 4, 5, 6, 7],
+      "health": 5,
+      "type": "knife_enemy"
+    },
+    {
+      "position": [144, 768],
+      "mode": "patrol",
+      "route": [12, 13, 14, 15],
+      "health": 5,
+      "type": "gun_enemy"
+    },
+    {
+      "position": [272, 768],
+      "mode": "patrol",
+      "route": [15, 12, 13, 14],
       "health": 8,
       "type": "knife_enemy"
     },
     {
-      "position": [247, 612],
+      "position": [216, 380],
       "mode": "patrol",
-      "route": [8, 9, 10],
-      "health": 5,
-      "type": "retreat_enemy"
-    },
-    {
-      "position": [381, 417],
-      "mode": "patrol",
-      "route": [9, 10, 8],
-      "health": 5,
-      "type": "berserk_enemy"
-    },
-    {
-      "position": [119, 418],
-      "mode": "patrol",
-      "route": [10, 8, 9],
+      "route": [16, 17, 18, 19],
       "health": 5,
       "type": "gun_enemy"
     },
     {
-      "position": [387, 302],
+      "position": [460, 648],
       "mode": "patrol",
-      "route": [11, 12, 13, 14],
+      "route": [18, 19, 16, 17],
+      "health": 5,
+      "type": "knife_enemy"
+    },
+    {
+      "position": [432, 960],
+      "mode": "patrol",
+      "route": [20, 21, 22, 23, 24, 25],
+      "health": 5,
+      "type": "gun_enemy"
+    },
+    {
+      "position": [912, 864],
+      "mode": "patrol",
+      "route": [22, 23, 24, 25, 20, 21],
       "health": 8,
       "type": "knife_enemy"
     },
@@ -76,14 +76,14 @@
       "mode": "guard",
       "guardPosition": [120, 248],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "gun_enemy"
     },
     {
       "position": [176, 144],
       "mode": "guard",
       "guardPosition": [176, 144],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "knife_enemy"
     },
     {
       "position": [304, 114],
@@ -104,14 +104,14 @@
       "mode": "guard",
       "guardPosition": [816, 224],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "gun_enemy"
     },
     {
       "position": [752, 64],
       "mode": "guard",
       "guardPosition": [752, 64],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "knife_enemy"
     },
     {
       "position": [968, 472],
@@ -132,14 +132,14 @@
       "mode": "guard",
       "guardPosition": [360, 344],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "gun_enemy"
     },
     {
       "position": [80, 704],
       "mode": "guard",
       "guardPosition": [80, 704],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "knife_enemy"
     },
     {
       "position": [336, 704],

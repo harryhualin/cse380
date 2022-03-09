@@ -104,13 +104,18 @@ export default class EnemyAI extends StateMachineGoapAI implements BattlerAI {
     damage(damage: number): void {
         this.health -= damage;
 
-        // If we're low enough, add Low Health status to enemy
+        // got damage
+        if (this.health <= this.maxHealth) {
+                this.currentStatus.push(hw4_Statuses.GOT_DAMAGE);
+        }
+        
+        // If we're low enough, add Low Health status to enemy 
         if (this.health <= Math.floor(this.maxHealth/2)) {
             if (this.currentStatus.indexOf(hw4_Statuses.LOW_HEALTH) === -1){
                 this.currentStatus.push(hw4_Statuses.LOW_HEALTH);
             }
         }
-
+        
         // If health goes below 0, disable AI and fire enemyDied event
         if (this.health <= 0) {
             this.owner.setAIActive(false, {});
