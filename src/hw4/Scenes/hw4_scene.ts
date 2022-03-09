@@ -565,13 +565,13 @@ export default class hw4_scene extends Scene {
                 actions = actionKnife;
                 range = 20;
             }
-            else if (data.type === "retreat_enemy") {
+            else if (data.type === "custom_enemy1") {
                 weapon = this.createWeapon("weak_pistol");
                 actions = actionRetreat;
                 range = 100;
                 
             }
-            else if (data.type === "berserks_enemy2") {
+            else if (data.type === "custom_enemy2") {
                 weapon = this.createWeapon("knife");
                 actions = actionBerserk;
                 range = 20;

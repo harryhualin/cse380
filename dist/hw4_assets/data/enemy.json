@@ -20,14 +20,14 @@
       "mode": "patrol",
       "route": [ 4, 5, 6, 7, 4],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "custom_enemy1"
     },
     {
       "position": [649, 894],
       "mode": "patrol",
       "route": [5, 6, 7, 4],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "custom_enemy2"
     },
     {
       "position": [658, 697],
@@ -48,14 +48,14 @@
       "mode": "patrol",
       "route": [8, 9, 10],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "custom_enemy1"
     },
     {
       "position": [381, 417],
       "mode": "patrol",
       "route": [9, 10, 8],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "custom_enemy2"
     },
     {
       "position": [119, 418],
@@ -76,14 +76,14 @@
       "mode": "guard",
       "guardPosition": [120, 248],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "custom_enemy1"
     },
     {
-      "position": [176, 144],
+      "position": [180, 144],
       "mode": "guard",
-      "guardPosition": [176, 144],
+      "guardPosition": [18, 144],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "custom_enemy2"
     },
     {
       "position": [304, 114],
@@ -104,14 +104,14 @@
       "mode": "guard",
       "guardPosition": [816, 224],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "custom_enemy1"
     },
     {
-      "position": [752, 64],
+      "position": [771, 150],
       "mode": "guard",
-      "guardPosition": [752, 64],
+      "guardPosition": [771, 150],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "custom_enemy2"
     },
     {
       "position": [968, 472],
@@ -132,14 +132,14 @@
       "mode": "guard",
       "guardPosition": [360, 344],
       "health": 5,
-      "type": "retreat_enemy"
+      "type": "custom_enemy1"
     },
     {
       "position": [80, 704],
       "mode": "guard",
       "guardPosition": [80, 704],
       "health": 5,
-      "type": "berserk_enemy"
+      "type": "custom_enemy2"
     },
     {
       "position": [336, 704],
