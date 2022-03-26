@@ -3,7 +3,7 @@ import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Input from "../../Wolfie2D/Input/Input";
-import { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
+import GameNode, { TweenableProperties } from "../../Wolfie2D/Nodes/GameNode";
 import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Point from "../../Wolfie2D/Nodes/Graphics/Point";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
@@ -122,11 +122,13 @@ export default class GameLevel extends Scene {
                     {
                         let node = this.sceneGraph.getNode(event.data.get("node"));
                         let other = this.sceneGraph.getNode(event.data.get("other"));
-
+                        
                         if(node === this.player){
+                           
                             // Node is player, other is balloon
                             this.handlePlayerBalloonCollision(<AnimatedSprite>node, <AnimatedSprite>other);
                         } else {
+                           
                             // Other is player, node is balloon
                             this.handlePlayerBalloonCollision(<AnimatedSprite>other,<AnimatedSprite>node);
 
@@ -135,7 +137,8 @@ export default class GameLevel extends Scene {
                     break;
 
                 case HW5_Events.BALLOON_POPPED:
-                    {
+                    {   //console.log("ober");
+
                         // An balloon collided with the player, destroy it and use the particle system
                         this.balloonsPopped++;
                         this.balloonLabel.text = "Balloons Left: " + (this.totalBalloons - this.balloonsPopped);
@@ -386,6 +389,8 @@ export default class GameLevel extends Scene {
         balloon.addPhysics();
         balloon.addAI(BalloonController, aiOptions);
         balloon.setGroup("balloon");
+        
+        balloon.setTrigger("player",HW5_Events.PLAYER_HIT_BALLOON,null);
 
     }
 
@@ -416,6 +421,24 @@ export default class GameLevel extends Scene {
      * 
      */
     protected handlePlayerBalloonCollision(player: AnimatedSprite, balloon: AnimatedSprite) {
+            if(balloon){
+			// If the player  isn't already dying, and overlaps the balloon
+            
+            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "balloon_pop", loop: false});	
+        
+            if((<PlayerController>player._ai).suitColor!=(<BalloonController>balloon._ai).color)
+            {   this.incPlayerLife(-1);
+               
+            }
+            else{
+   
+             }   
+				
+			if((<BalloonController>balloon._ai).color===HW5_Color.RED) this.system.changeColor(Color.RED);
+            if((<BalloonController>balloon._ai).color===HW5_Color.BLUE) this.system.changeColor(Color.BLUE);
+            if((<BalloonController>balloon._ai).color===HW5_Color.GREEN) this.system.changeColor(Color.GREEN);
+             this.emitter.fireEvent(HW5_Events.BALLOON_POPPED,{owner:(<GameNode>balloon).id}); 
+            }
     }
 
     /**
@@ -430,6 +453,7 @@ export default class GameLevel extends Scene {
             this.player.disablePhysics();
             this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "player_death", loop: false, holdReference: false});
             this.player.tweens.play("death");
+            
         }
     }
 

@@ -1,7 +1,11 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../../Wolfie2D/Events/GameEvent";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
+import GameNode from "../../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
+import Tilemap from "../../Wolfie2D/Nodes/Tilemap";
 import { HW5_Events } from "../hw5_enums";
+import PlayerState from "../Player/PlayerStates/PlayerState";
 import BalloonState from "./BalloonState";
 
 // HOMEWORK 5 - TODO
@@ -21,10 +25,39 @@ import BalloonState from "./BalloonState";
  * are fired to get the player position
  */
 export default class ZeroGravity extends BalloonState {
+	protected new_speed: number;
+	
 	onEnter(): void {
+		this.gravity = 0;
+		this.new_speed=this.parent.speed;
+		(<AnimatedSprite>this.owner).animation.play("IDLE", true);
+	}
+
+	update(deltaT: number): void {
+		super.update(deltaT);
+		this.parent.velocity.x =  this.parent.direction.x * this.new_speed;
+		this.owner.move(this.parent.velocity.scaled(deltaT));
+	}
+	
+	//overwrite
+	handleInput(event: GameEvent): void {		
+		super.handleInput(event);
+		if(event.type==HW5_Events.PLAYER_MOVE) {
+			
+			let position=event.data.get("position");
+			let dis=Math.sqrt(Math.pow(Math.abs(this.owner.position.x-position.x),2)+Math.pow(Math.abs(this.owner.position.y-position.y),2));
+			
+			if (dis<=(10*16)){			
+				this.new_speed=this.parent.speed*2;
+			}
+			else{this.new_speed=this.parent.speed}; 
+		}
+			
+					
 	}
 
 	onExit(): Record<string, any> {
+		(<AnimatedSprite>this.owner).animation.stop();
 		return {};
 	}
 }

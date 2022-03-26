@@ -40,7 +40,7 @@ export default class EaseFunctions {
 }
 
 export enum EaseFunctionType {
-    // SINE
+    // 
     IN_OUT_SINE = "easeInOutSine",
     OUT_IN_SINE = "easeOutInSine",
     IN_SINE = "easeInSine",

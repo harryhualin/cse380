@@ -70,6 +70,26 @@ export default class PlayerController extends StateMachineAI {
                 }
             ]
         });
+        owner.tweens.add("death", {
+            startDelay: 0,
+            duration: 2000,
+            effects: [
+                {
+                    property: TweenableProperties.rotation,
+                    start: 0, 
+                    end: 20*Math.PI,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                     
+                },
+                {
+                    property: TweenableProperties.alpha,
+                    start: 1,
+                    end: 0,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                }
+              ],
+            onEnd: HW5_Events.PLAYER_KILLED       
+        });
 
     }
 
@@ -125,5 +145,21 @@ export default class PlayerController extends StateMachineAI {
 		} else if(this.currentState instanceof Fall){
             Debug.log("playerstate", "Player State: Fall");
         }
-	}
+       
+        if(this.owner.collidedWithTilemap && this.tilemap){
+            let tilePosition=this.owner.position.clone();
+            tilePosition.y=tilePosition.y+this.tilemap.getTileSize().y;
+            let tileRowCol=this.tilemap.getColRowAt(tilePosition);
+            if(this.tilemap.getTileAtRowCol(tileRowCol)===8)
+            {
+            //console.info(tilePosition.toString());
+            //tilePosition.y=tilePosition.y-this.tilemap.getTileSize().y;        
+            
+            //console.log(Position.toString);
+            this.tilemap.setTileAtRowCol(tileRowCol,9);
+                this.emitter.fireEvent(HW5_Events.PLAYER_HIT_SWITCH);
+        }
+        }
+    
+    }
 }
