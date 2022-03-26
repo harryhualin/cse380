@@ -47,7 +47,7 @@ export default class ZeroGravity extends BalloonState {
 			let position=event.data.get("position");
 			let dis=Math.sqrt(Math.pow(Math.abs(this.owner.position.x-position.x),2)+Math.pow(Math.abs(this.owner.position.y-position.y),2));
 			
-			if (dis<=(10*16)){			
+			if (dis<=(10*32)){			
 				this.new_speed=this.parent.speed*2;
 			}
 			else{this.new_speed=this.parent.speed}; 

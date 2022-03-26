@@ -155,7 +155,8 @@ export default class PlayerController extends StateMachineAI {
             //console.info(tilePosition.toString());
             //tilePosition.y=tilePosition.y-this.tilemap.getTileSize().y;        
             
-            //console.log(Position.toString);
+            //console.log(this.tilemap.getTileSize().x);
+           //console.log(this.tilemap.getTileSize().y);
             this.tilemap.setTileAtRowCol(tileRowCol,9);
                 this.emitter.fireEvent(HW5_Events.PLAYER_HIT_SWITCH);
         }
